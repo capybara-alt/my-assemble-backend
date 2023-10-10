@@ -5,7 +5,6 @@ go 1.21.1
 require (
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/gocolly/colly v1.2.0
-	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.2
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.4
