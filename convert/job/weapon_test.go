@@ -64,6 +64,8 @@ var weapon_schema model.ValidationUnitSchemaList = []model.ValidationUnitSchema{
 }
 
 func TestConvertWeapon(t *testing.T) {
+	core.SetFakeTime(time.Now())
+
 	tests := []struct {
 		name          string
 		crawl_results model.CrawlResultJSON
@@ -151,7 +153,7 @@ func TestConvertWeapon(t *testing.T) {
 						Cooling:             284,
 						Weight:              4180,
 						ENLoad:              225,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Unit:                string(model.CROSS_WEAPON_UNIT_TYPE),
@@ -172,7 +174,7 @@ func TestConvertWeapon(t *testing.T) {
 						Cooling:             209,
 						Weight:              2200,
 						ENLoad:              544,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Unit:                string(model.CROSS_WEAPON_UNIT_TYPE),
@@ -192,7 +194,7 @@ func TestConvertWeapon(t *testing.T) {
 						Cooling:             199,
 						Weight:              2030,
 						ENLoad:              642,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -282,7 +284,7 @@ func TestConvertWeapon(t *testing.T) {
 						AmmunitionCost:      "100",
 						Weight:              4210,
 						ENLoad:              158,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Unit:                string(model.DEFAULT_WEAPON_ARM_UNIT_TYPE),
@@ -310,7 +312,7 @@ func TestConvertWeapon(t *testing.T) {
 						AmmunitionCost:      "200",
 						Weight:              4840,
 						ENLoad:              441,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -374,7 +376,7 @@ func TestConvertWeapon(t *testing.T) {
 						Cooling:            144,
 						Weight:             2700,
 						ENLoad:             310,
-						CreatedAt:          time.Now(),
+						CreatedAt:          core.Now(),
 					},
 					{
 						Unit:               string(model.SHIELD_WEAPON_UNIT_TYPE),
@@ -392,7 +394,7 @@ func TestConvertWeapon(t *testing.T) {
 						Cooling:            132,
 						Weight:             1920,
 						ENLoad:             285,
-						CreatedAt:          time.Now(),
+						CreatedAt:          core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -465,7 +467,7 @@ func TestConvertWeapon(t *testing.T) {
 						AmmunitionCost:      "80",
 						Weight:              2120,
 						ENLoad:              154,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Unit:                string(model.DEFAULT_WEAPON_BACK_UNIT_TYPE),
@@ -486,7 +488,7 @@ func TestConvertWeapon(t *testing.T) {
 						AmmunitionCost:      "70",
 						Weight:              1900,
 						ENLoad:              182,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -494,7 +496,6 @@ func TestConvertWeapon(t *testing.T) {
 		},
 	}
 
-	core.SetFakeTime(time.Now())
 	for _, tt := range tests {
 		c := convert.NewWeaponList(weapon_schema)
 		v, err := c.Convert(tt.crawl_results)

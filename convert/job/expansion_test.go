@@ -71,6 +71,8 @@ var expansion_schema model.ValidationUnitSchemaList = []model.ValidationUnitSche
 }
 
 func TestConvertExpansion(t *testing.T) {
+	core.SetFakeTime(time.Now())
+
 	tests := []struct {
 		name          string
 		crawl_results model.CrawlResultJSON
@@ -120,7 +122,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          0,
 						Impact:              2000,
 						AccumulativeImpact:  1380,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "PULSE ARMOR",
@@ -134,7 +136,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          3300,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "PULSE PROTECTION",
@@ -148,7 +150,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          7000,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "TERMINAL ARMOR",
@@ -162,7 +164,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          20000,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -240,7 +242,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          0,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "PULSE ARMOR",
@@ -254,7 +256,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          3300,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "PULSE PROTECTION",
@@ -268,7 +270,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          7000,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 					{
 						Name:                "TERMINAL ARMOR",
@@ -282,7 +284,7 @@ func TestConvertExpansion(t *testing.T) {
 						Resilience:          20000,
 						Impact:              0,
 						AccumulativeImpact:  0,
-						CreatedAt:           time.Now(),
+						CreatedAt:           core.Now(),
 					},
 				},
 				ErrMsg: "",
@@ -290,7 +292,6 @@ func TestConvertExpansion(t *testing.T) {
 		},
 	}
 
-	core.SetFakeTime(time.Now())
 	for _, tt := range tests {
 		c := convert.NewExpansionList(expansion_schema)
 		v, err := c.Convert(tt.crawl_results)
