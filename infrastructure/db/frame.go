@@ -8,6 +8,7 @@ import (
 	"github.com/capybara-alt/my-assemble/model"
 	"github.com/capybara-alt/my-assemble/repository"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type frame struct{}
@@ -23,12 +24,13 @@ func (r *frame) InsertBatch(ctx context.Context, frame_list []model.Frame) error
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Exec("DELETE FROM FRAMES").Error; err != nil {
-			return err
-		}
-
-		if err := tx.CreateInBatches(frame_list, len(frame_list)).Error; err != nil {
-			return err
+		for _, v := range frame_list {
+			err := tx.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(&v).Error
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
