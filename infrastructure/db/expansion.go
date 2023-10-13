@@ -8,6 +8,7 @@ import (
 	"github.com/capybara-alt/my-assemble/model"
 	"github.com/capybara-alt/my-assemble/repository"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type expansion struct{}
@@ -23,12 +24,13 @@ func (r *expansion) InsertBatch(ctx context.Context, expansion_list []model.Expa
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Exec("DELETE FROM EXPANSIONS").Error; err != nil {
-			return err
-		}
-
-		if err := tx.CreateInBatches(expansion_list, len(expansion_list)).Error; err != nil {
-			return err
+		for _, v := range expansion_list {
+			err := tx.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(&v).Error
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
