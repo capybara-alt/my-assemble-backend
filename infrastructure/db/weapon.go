@@ -8,6 +8,7 @@ import (
 	"github.com/capybara-alt/my-assemble/model"
 	"github.com/capybara-alt/my-assemble/repository"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type weapon struct{}
@@ -23,12 +24,13 @@ func (r *weapon) InsertBatch(ctx context.Context, weapon_list []model.Weapon) er
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Exec("DELETE FROM WEAPONS").Error; err != nil {
-			return err
-		}
-
-		if err := tx.CreateInBatches(weapon_list, len(weapon_list)).Error; err != nil {
-			return err
+		for _, v := range weapon_list {
+			err := tx.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(&v).Error
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
