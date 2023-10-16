@@ -13,7 +13,7 @@ func TestExpansionCrawler(t *testing.T) {
 		name string
 		want model.Want[model.CrawlResultJSON]
 	}{
-		name: "",
+		name: "[正常系]拡張機能ページのクロールテスト",
 		want: model.Want[model.CrawlResultJSON]{
 			Value: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {

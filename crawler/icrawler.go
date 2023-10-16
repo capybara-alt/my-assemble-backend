@@ -32,40 +32,34 @@ func (a *AbstractCrawler) JobName() string {
 
 func (a *AbstractCrawler) Crawl() (model.CrawlResultJSON, error) {
 	collector := colly.NewCollector()
-	weapon_list := make(model.CrawlResultJSON)
-	weapon_list[a.unit_type] = make(model.CategoryGroupedJSON)
-	collector.OnHTML("div#wikibody", func(h *colly.HTMLElement) {
-		h.ForEach("div.plugin_contents > ul > li > a", func(i int, h *colly.HTMLElement) {
-			name_links := h.DOM.NextAllFiltered("ul").ChildrenFiltered("li")
-
-			weapon_info := make(model.NameGroupedJSON)
-			name_links.Each(func(i int, s *goquery.Selection) {
-				weapon_info[s.Text()] = make(model.UnitInfoJSON)
-			})
-			if len(weapon_info) > 0 {
-				weapon_list[a.unit_type][h.Text] = weapon_info
+	unit_list := make(model.CrawlResultJSON)
+	unit_list[a.unit_type] = make(model.CategoryGroupedJSON)
+	collector.OnHTML("div#wikibody", func(root *colly.HTMLElement) {
+		root.ForEach("div.plugin_contents > ul > li > a", func(i int, h *colly.HTMLElement) {
+			if h.DOM.NextAllFiltered("ul").Length() != 0 {
+				unit_list[a.unit_type][h.Text] = make(model.NameGroupedJSON)
 			}
-		})
+			h.DOM.NextAllFiltered("ul").Each(func(i int, h2list *goquery.Selection) {
+				h2list.ChildrenFiltered("li").ChildrenFiltered("a").Each(func(i int, h3list *goquery.Selection) {
+					id, ok := h3list.Attr("href")
+					if !ok {
+						return
+					}
 
-		h.ForEach("h2", func(i int, h *colly.HTMLElement) {
-			if _, ok := weapon_list[a.unit_type][h.Text]; !ok {
-				return
-			}
-			h.DOM.NextUntil("h2").Each(func(i int, s *goquery.Selection) {
-				h3 := s.Filter("h3")
-				if a.IsTargetSection(h3) {
-					h3.NextAllFiltered("table").First().Each(func(i int, s *goquery.Selection) {
-						if a.IsTargetTable(s) {
-							weapon_list[a.unit_type][h.Text][h3.Text()] = a.GetWeaponInfo(s)
-						}
-					})
-				}
+					h3WithId := fmt.Sprintf("h3%s", id)
+					h3 := root.DOM.ChildrenFiltered(h3WithId)
+					table := h3.NextAllFiltered("table:not([class=\"atwiki_plugin_region\"])")
+					if !a.IsTargetTable(table) {
+						return
+					}
+					unit_list[a.unit_type][h.Text][h3.Text()] = a.GetUnitInfo(table.First())
+				})
 			})
 		})
 	})
 
 	err := collector.Visit(a.target_url)
-	return weapon_list, err
+	return unit_list, err
 }
 
 func (a *AbstractCrawler) IsTargetSection(s *goquery.Selection) bool {
@@ -73,18 +67,18 @@ func (a *AbstractCrawler) IsTargetSection(s *goquery.Selection) bool {
 }
 
 func (a *AbstractCrawler) IsTargetTable(s *goquery.Selection) bool {
-	filter_table_style := "background-color:transparent;margin:0;padding:0;border:none;"
+	filter_table_style := "margin:0;padding:0;border:none;background-color:transparent;"
 	filter_target_table := fmt.Sprintf("tr[style=\"%s\"]", filter_table_style)
 	return s.ChildrenFiltered("tbody").ChildrenFiltered(filter_target_table).Text() == ""
 }
 
-func (a *AbstractCrawler) GetWeaponInfo(s *goquery.Selection) model.UnitInfoJSON {
-	weapon_info := make(model.UnitInfoJSON)
+func (a *AbstractCrawler) GetUnitInfo(s *goquery.Selection) model.UnitInfoJSON {
+	unit_info := make(model.UnitInfoJSON)
 	s.ChildrenFiltered("tbody").ChildrenFiltered("tr").Each(func(i int, s *goquery.Selection) {
 		header := s.ChildrenFiltered("th").First().Text()
 		column := s.ChildrenFiltered("td").First().Text()
-		weapon_info[header] = column
+		unit_info[header] = column
 	})
 
-	return weapon_info
+	return unit_info
 }
