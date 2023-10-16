@@ -82,7 +82,7 @@ func TestConvertExpansion(t *testing.T) {
 			name: "[正常系]EXPANSIONの変換",
 			crawl_results: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
-					"コア拡張機能": {
+					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": {
 							"攻撃力":  "1500",
 							"衝撃力":  "2000",
@@ -112,7 +112,7 @@ func TestConvertExpansion(t *testing.T) {
 				Value: []model.Expansion{
 					{
 						Name:                "ASSAULT ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         200,
 						Duration:            0,
@@ -126,7 +126,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "PULSE ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            10,
@@ -140,7 +140,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "PULSE PROTECTION",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            25,
@@ -154,7 +154,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "TERMINAL ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            5,
@@ -174,7 +174,7 @@ func TestConvertExpansion(t *testing.T) {
 			name: "[準正常系]全角数値が入っている場合",
 			crawl_results: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
-					"コア拡張機能": {
+					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": {
 							"攻撃力":  "１５００",
 							"衝撃力":  "2000",
@@ -209,7 +209,7 @@ func TestConvertExpansion(t *testing.T) {
 			name: "[準正常系]データが抜けている場合",
 			crawl_results: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
-					"コア拡張機能": {
+					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": nil,
 						"PULSE ARMOR": {
 							"耐久性能": "3300",
@@ -232,7 +232,7 @@ func TestConvertExpansion(t *testing.T) {
 				Value: []model.Expansion{
 					{
 						Name:                "ASSAULT ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            0,
@@ -246,7 +246,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "PULSE ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            10,
@@ -260,7 +260,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "PULSE PROTECTION",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            25,
@@ -274,7 +274,7 @@ func TestConvertExpansion(t *testing.T) {
 					},
 					{
 						Name:                "TERMINAL ARMOR",
-						Category:            "コア拡張機能",
+						Category:            string(model.EXPANSION_TYPE),
 						Unit:                string(model.EXPANSION_TYPE),
 						EffectRange:         0,
 						Duration:            5,
