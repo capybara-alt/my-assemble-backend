@@ -74,13 +74,13 @@ func TestConvertExpansion(t *testing.T) {
 	core.SetFakeTime(time.Now())
 
 	tests := []struct {
-		name          string
-		crawl_results model.CrawlResultJSON
-		want          model.Want[[]model.Expansion]
+		name         string
+		crawlResults model.CrawlResultJSON
+		want         model.Want[[]model.Expansion]
 	}{
 		{
 			name: "[正常系]EXPANSIONの変換",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
 					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": {
@@ -172,7 +172,7 @@ func TestConvertExpansion(t *testing.T) {
 		},
 		{
 			name: "[準正常系]全角数値が入っている場合",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
 					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": {
@@ -207,7 +207,7 @@ func TestConvertExpansion(t *testing.T) {
 		},
 		{
 			name: "[準正常系]データが抜けている場合",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.EXPANSION_TYPE): {
 					string(model.EXPANSION_TYPE): {
 						"ASSAULT ARMOR": nil,
@@ -294,7 +294,7 @@ func TestConvertExpansion(t *testing.T) {
 
 	for _, tt := range tests {
 		c := convert.NewExpansionList(expansion_schema)
-		v, err := c.Convert(tt.crawl_results)
+		v, err := c.Convert(tt.crawlResults)
 		sort.SliceStable(v, func(i, j int) bool {
 			return v[i].Name < v[j].Name
 		})

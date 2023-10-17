@@ -10,44 +10,44 @@ import (
 )
 
 type ExpansionJob struct {
-	db_repo       repository.Expansion
-	external_repo []repository.ExternalExpansion
-	convertor     convert.IConvertor[model.Expansion]
-	logger        *slog.Logger
+	dbRepo       repository.Expansion
+	externalRepo []repository.ExternalExpansion
+	convertor    convert.IConvertor[model.Expansion]
+	logger       *slog.Logger
 }
 
 func NewExpansionJob(
-	db_repo repository.Expansion,
-	external_repo []repository.ExternalExpansion,
+	dbRepo repository.Expansion,
+	externalRepo []repository.ExternalExpansion,
 	convertor convert.IConvertor[model.Expansion],
 	logger *slog.Logger) ICrawlJobUsecase {
 	return &ExpansionJob{
-		db_repo:       db_repo,
-		external_repo: external_repo,
-		convertor:     convertor,
-		logger:        logger,
+		dbRepo:       dbRepo,
+		externalRepo: externalRepo,
+		convertor:    convertor,
+		logger:       logger,
 	}
 }
 
 func (c *ExpansionJob) Execute(ctx context.Context) {
 	models := []model.Expansion{}
 
-	for _, repo := range c.external_repo {
+	for _, repo := range c.externalRepo {
 		results, err := repo.Fetch()
 		if err != nil {
 			c.logger.Error("Crawl failed", "JobName", "detail", err)
 		}
 		c.logger.Info("Crawl successful")
-		expansion_list, err := c.convertor.Convert(results)
+		expansionList, err := c.convertor.Convert(results)
 		if err != nil {
 			c.logger.Error("Validation error", "detail", err)
 		} else {
-			models = append(models, expansion_list...)
+			models = append(models, expansionList...)
 			c.logger.Info("Convert successful")
 		}
 	}
 
-	if err := c.db_repo.UpsertBatch(ctx, models); err != nil {
+	if err := c.dbRepo.UpsertBatch(ctx, models); err != nil {
 		c.logger.Error("InsertBatch failed", "detail", err)
 	}
 }

@@ -6,49 +6,49 @@ import (
 )
 
 type ExpansionList struct {
-	validation_schema model.ValidationUnitSchemaList
+	validationSchema model.ValidationUnitSchemaList
 }
 
 func NewExpansionList(s model.ValidationUnitSchemaList) IConvertor[model.Expansion] {
 	return &ExpansionList{
-		validation_schema: s,
+		validationSchema: s,
 	}
 }
 
 func (e *ExpansionList) Convert(results model.CrawlResultJSON) ([]model.Expansion, error) {
-	expansion_list := []model.Expansion{}
-	unit_type := results.GetUnitType()
-	categories := results[unit_type]
-	for category_name, category := range categories {
-		wc := newExpansion(category_name, unit_type, e.validation_schema)
-		for name, expansion_info := range category {
-			expansion, err := wc.convert(name, expansion_info)
+	expansionList := []model.Expansion{}
+	unitType := results.GetUnitType()
+	categories := results[unitType]
+	for cname, category := range categories {
+		wc := newExpansion(cname, unitType, e.validationSchema)
+		for name, info := range category {
+			expansion, err := wc.convert(name, info)
 			if err != nil {
 				return nil, err
 			}
-			expansion_list = append(expansion_list, *expansion)
+			expansionList = append(expansionList, *expansion)
 		}
 	}
 
-	return expansion_list, nil
+	return expansionList, nil
 }
 
 type expansion struct {
-	validation_schema model.ValidationUnitSchemaList
-	unit_type         string
-	category          string
+	validationSchema model.ValidationUnitSchemaList
+	unitType         string
+	category         string
 }
 
-func newExpansion(category, unit_type string, s model.ValidationUnitSchemaList) *expansion {
+func newExpansion(category, unitType string, s model.ValidationUnitSchemaList) *expansion {
 	return &expansion{
-		category:          category,
-		unit_type:         unit_type,
-		validation_schema: s,
+		category:         category,
+		unitType:         unitType,
+		validationSchema: s,
 	}
 }
 
-func (e *expansion) convert(name string, expansion_info model.UnitInfoJSON) (*model.Expansion, error) {
-	converted, err := e.validation_schema.ConvertValues(expansion_info)
+func (e *expansion) convert(name string, info model.UnitInfoJSON) (*model.Expansion, error) {
+	converted, err := e.validationSchema.ConvertValues(info)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (e *expansion) convert(name string, expansion_info model.UnitInfoJSON) (*mo
 	return &model.Expansion{
 		Name:                name,
 		Category:            e.category,
-		Unit:                e.unit_type,
+		Unit:                e.unitType,
 		EffectRange:         converted["effect_range"].(int64),
 		Duration:            converted["duration"].(int64),
 		AttackPower:         converted["attack_power"].(int64),

@@ -17,14 +17,14 @@ func NewWeapon() repository.Weapon {
 	return &weapon{}
 }
 
-func (r *weapon) UpsertBatch(ctx context.Context, weapon_list []model.Weapon) error {
+func (r *weapon) UpsertBatch(ctx context.Context, weaponList []model.Weapon) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		for _, v := range weapon_list {
+		for _, v := range weaponList {
 			err := tx.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&v).Error

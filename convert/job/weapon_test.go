@@ -67,13 +67,13 @@ func TestConvertWeapon(t *testing.T) {
 	core.SetFakeTime(time.Now())
 
 	tests := []struct {
-		name          string
-		crawl_results model.CrawlResultJSON
-		want          model.Want[[]model.Weapon]
+		name         string
+		crawlResults model.CrawlResultJSON
+		want         model.Want[[]model.Weapon]
 	}{
 		{
 			name: "[正常系]Cross Weaponの変換",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.CROSS_WEAPON_UNIT_TYPE): {
 					"パイルバンカー": {
 						"PB-033M ASHMEAD": {
@@ -202,7 +202,7 @@ func TestConvertWeapon(t *testing.T) {
 		},
 		{
 			name: "[正常系]Arm Weaponの変換",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.DEFAULT_WEAPON_ARM_UNIT_TYPE): {
 					"バーストライフル": {
 						"MA-J-200 RANSETSU-RF": {
@@ -320,7 +320,7 @@ func TestConvertWeapon(t *testing.T) {
 		},
 		{
 			name: "[正常系]Shield Weaponの変換",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.SHIELD_WEAPON_UNIT_TYPE): {
 					"パルスシールド": {
 						"VP-61PS": {
@@ -402,7 +402,7 @@ func TestConvertWeapon(t *testing.T) {
 		},
 		{
 			name: "[正常系]Back Unit Weaponの変換",
-			crawl_results: model.CrawlResultJSON{
+			crawlResults: model.CrawlResultJSON{
 				string(model.DEFAULT_WEAPON_BACK_UNIT_TYPE): {
 					"ミサイル": {
 						"BML-G1/P20MLT-04": {
@@ -498,7 +498,7 @@ func TestConvertWeapon(t *testing.T) {
 
 	for _, tt := range tests {
 		c := convert.NewWeaponList(weapon_schema)
-		v, err := c.Convert(tt.crawl_results)
+		v, err := c.Convert(tt.crawlResults)
 		sort.SliceStable(v, func(i, j int) bool {
 			return v[i].Name < v[j].Name
 		})

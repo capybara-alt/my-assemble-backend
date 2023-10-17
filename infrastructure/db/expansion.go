@@ -17,14 +17,14 @@ func NewExpansion() repository.Expansion {
 	return &expansion{}
 }
 
-func (r *expansion) UpsertBatch(ctx context.Context, expansion_list []model.Expansion) error {
+func (r *expansion) UpsertBatch(ctx context.Context, expansionList []model.Expansion) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		for _, v := range expansion_list {
+		for _, v := range expansionList {
 			err := tx.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&v).Error

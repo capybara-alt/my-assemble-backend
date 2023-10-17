@@ -6,49 +6,49 @@ import (
 )
 
 type WeaponList struct {
-	validation_schema model.ValidationUnitSchemaList
+	validationSchema model.ValidationUnitSchemaList
 }
 
 func NewWeaponList(s model.ValidationUnitSchemaList) IConvertor[model.Weapon] {
 	return &WeaponList{
-		validation_schema: s,
+		validationSchema: s,
 	}
 }
 
 func (w *WeaponList) Convert(results model.CrawlResultJSON) ([]model.Weapon, error) {
-	weapon_list := []model.Weapon{}
-	unit_type := results.GetUnitType()
-	categories := results[unit_type]
-	for category_name, category := range categories {
-		wc := newWeapon(category_name, unit_type, w.validation_schema)
-		for name, weapon_info := range category {
-			weapon, err := wc.convert(name, weapon_info)
+	weaponList := []model.Weapon{}
+	unitType := results.GetUnitType()
+	categories := results[unitType]
+	for cname, category := range categories {
+		wc := newWeapon(cname, unitType, w.validationSchema)
+		for name, info := range category {
+			weapon, err := wc.convert(name, info)
 			if err != nil {
 				return nil, err
 			}
-			weapon_list = append(weapon_list, *weapon)
+			weaponList = append(weaponList, *weapon)
 		}
 	}
 
-	return weapon_list, nil
+	return weaponList, nil
 }
 
 type weapon struct {
-	category          string
-	unit_type         string
-	validation_schema model.ValidationUnitSchemaList
+	category         string
+	unitType         string
+	validationSchema model.ValidationUnitSchemaList
 }
 
-func newWeapon(category, unit_type string, s model.ValidationUnitSchemaList) *weapon {
+func newWeapon(category, unitType string, s model.ValidationUnitSchemaList) *weapon {
 	return &weapon{
-		category:          category,
-		unit_type:         unit_type,
-		validation_schema: s,
+		category:         category,
+		unitType:         unitType,
+		validationSchema: s,
 	}
 }
 
-func (w *weapon) convert(name string, weapon_info model.UnitInfoJSON) (*model.Weapon, error) {
-	converted, err := w.validation_schema.ConvertValues(weapon_info)
+func (w *weapon) convert(name string, info model.UnitInfoJSON) (*model.Weapon, error) {
+	converted, err := w.validationSchema.ConvertValues(info)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (w *weapon) convert(name string, weapon_info model.UnitInfoJSON) (*model.We
 		ENLoad:               converted["en_load"].(int64),
 		Price:                converted["price"].(int64),
 		Weight:               converted["weight"].(int64),
-		Unit:                 w.unit_type,
+		Unit:                 w.unitType,
 		PAInterference:       converted["pa_interference"].(int64),
 		Cooling:              converted["cooling"].(int64),
 		Recoil:               converted["recoil"].(int64),

@@ -10,39 +10,39 @@ import (
 )
 
 type WeaponJob struct {
-	db_repo       repository.Weapon
-	external_repo []repository.ExternalWeapon
-	convertor     convert.IConvertor[model.Weapon]
-	logger        *slog.Logger
+	db_repo      repository.Weapon
+	externalRepo []repository.ExternalWeapon
+	convertor    convert.IConvertor[model.Weapon]
+	logger       *slog.Logger
 }
 
 func NewWeaponJob(
 	db_repo repository.Weapon,
-	external_repo []repository.ExternalWeapon,
+	externalRepo []repository.ExternalWeapon,
 	convertor convert.IConvertor[model.Weapon],
 	logger *slog.Logger) ICrawlJobUsecase {
 	return &WeaponJob{
-		db_repo:       db_repo,
-		external_repo: external_repo,
-		convertor:     convertor,
-		logger:        logger,
+		db_repo:      db_repo,
+		externalRepo: externalRepo,
+		convertor:    convertor,
+		logger:       logger,
 	}
 }
 
 func (c *WeaponJob) Execute(ctx context.Context) {
 	models := []model.Weapon{}
 
-	for _, repo := range c.external_repo {
+	for _, repo := range c.externalRepo {
 		results, err := repo.Fetch()
 		if err != nil {
 			c.logger.Error("Crawl failed", "detail", err)
 		}
 		c.logger.Info("Crawl successful")
-		weapon_list, err := c.convertor.Convert(results)
+		weaponList, err := c.convertor.Convert(results)
 		if err != nil {
 			c.logger.Error("Validation error", "detail", err)
 		} else {
-			models = append(models, weapon_list...)
+			models = append(models, weaponList...)
 			c.logger.Info("Convert successful")
 		}
 	}

@@ -6,56 +6,56 @@ import (
 )
 
 type FrameList struct {
-	validation_schema model.ValidationUnitSchemaList
+	validationSchema model.ValidationUnitSchemaList
 }
 
 func NewFrameList(s model.ValidationUnitSchemaList) IConvertor[model.Frame] {
 	return &FrameList{
-		validation_schema: s,
+		validationSchema: s,
 	}
 }
 
 func (f *FrameList) Convert(results model.CrawlResultJSON) ([]model.Frame, error) {
-	frame_list := []model.Frame{}
-	unit_type := results.GetUnitType()
-	categories := results[unit_type]
-	for category_name, category := range categories {
-		wc := newFrame(category_name, unit_type, f.validation_schema)
-		for name, frame_info := range category {
-			frame, err := wc.convert(name, frame_info)
+	frameList := []model.Frame{}
+	unitType := results.GetUnitType()
+	categories := results[unitType]
+	for cname, category := range categories {
+		wc := newFrame(cname, unitType, f.validationSchema)
+		for name, info := range category {
+			frame, err := wc.convert(name, info)
 			if err != nil {
 				return nil, err
 			}
-			frame_list = append(frame_list, *frame)
+			frameList = append(frameList, *frame)
 		}
 	}
 
-	return frame_list, nil
+	return frameList, nil
 }
 
 type frame struct {
-	validation_schema model.ValidationUnitSchemaList
-	unit_type         string
-	category          string
+	validationSchema model.ValidationUnitSchemaList
+	unitType         string
+	category         string
 }
 
-func newFrame(category, unit_type string, s model.ValidationUnitSchemaList) *frame {
+func newFrame(category, unitType string, s model.ValidationUnitSchemaList) *frame {
 	return &frame{
-		category:          category,
-		unit_type:         unit_type,
-		validation_schema: s,
+		category:         category,
+		unitType:         unitType,
+		validationSchema: s,
 	}
 }
 
-func (f *frame) convert(name string, frame_info model.UnitInfoJSON) (*model.Frame, error) {
-	converted, err := f.validation_schema.ConvertValues(frame_info)
+func (f *frame) convert(name string, info model.UnitInfoJSON) (*model.Frame, error) {
+	converted, err := f.validationSchema.ConvertValues(info)
 	if err != nil {
 		return nil, err
 	}
 
 	return &model.Frame{
 		Name:                  name,
-		Unit:                  f.unit_type,
+		Unit:                  f.unitType,
 		Category:              f.category,
 		ABThrust:              converted["ab_thrust"].(int64),
 		AbEnConsumption:       converted["ab_en_consumption"].(int64),

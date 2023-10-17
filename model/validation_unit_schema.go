@@ -13,11 +13,11 @@ func NewValidationUnitSchemaList() ValidationUnitSchemaList {
 	return []ValidationUnitSchema{}
 }
 
-func (v ValidationUnitSchemaList) ConvertValues(weapon_info UnitInfoJSON) (map[string]interface{}, error) {
+func (v ValidationUnitSchemaList) ConvertValues(info UnitInfoJSON) (map[string]interface{}, error) {
 	converted := make(map[string]interface{})
 	errs := []error{}
 	for _, schema := range v {
-		value, ok := weapon_info[schema.NameJa]
+		value, ok := info[schema.NameJa]
 		if !ok {
 			value = ""
 		}

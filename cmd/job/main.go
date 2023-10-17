@@ -35,12 +35,12 @@ func main() {
 	ctx := context.Background()
 	ctx = core.SetTx(ctx, db)
 
-	validation_schema_repo := repo.NewValidationUnitSchema()
-	validation_schema := common.NewValidationSchema(validation_schema_repo, logger)
-	validation_schema.Execute(ctx)
+	validationSchemaRepo := repo.NewValidationUnitSchema()
+	validationSchema := common.NewValidationSchema(validationSchemaRepo, logger)
+	validationSchema.Execute(ctx)
 
-	weapon_convert := convert.NewWeaponList(validation_schema.GetWeaponSchema())
-	var external_weapon_repo = []repository.ExternalWeapon{
+	weaponConvert := convert.NewWeaponList(validationSchema.GetWeaponSchema())
+	var externalWeaponRepos = []repository.ExternalWeapon{
 		crawler.NewCrossWeapon(),
 		crawler.NewAmmoWeapon(),
 		crawler.NewEnCoralWeapon(),
@@ -51,33 +51,33 @@ func main() {
 		crawler.NewOrbitTaletDroneWeapon(),
 		crawler.NewShieldWeapon(),
 	}
-	weapon_repo := repo.NewWeapon()
-	job.NewWeaponJob(weapon_repo, external_weapon_repo, weapon_convert, logger).Execute(ctx)
+	weaponRepo := repo.NewWeapon()
+	job.NewWeaponJob(weaponRepo, externalWeaponRepos, weaponConvert, logger).Execute(ctx)
 
-	frame_convert := convert.NewFrameList(validation_schema.GetFrameSchema())
-	var external_frame_repo = []repository.ExternalFrame{
+	frameConvert := convert.NewFrameList(validationSchema.GetFrameSchema())
+	var externalFrameRepos = []repository.ExternalFrame{
 		crawler.NewArmsFrame(),
 		crawler.NewCoreFrame(),
 		crawler.NewHeadFrame(),
 		crawler.NewLegsFrame(),
 		crawler.NewOtherLegsFrame(),
 	}
-	frame_repo := repo.NewFrame()
-	job.NewFrameJob(frame_repo, external_frame_repo, frame_convert, logger).Execute(ctx)
+	frameRepo := repo.NewFrame()
+	job.NewFrameJob(frameRepo, externalFrameRepos, frameConvert, logger).Execute(ctx)
 
-	inner_unit_convert := convert.NewInnerUnitsList(validation_schema.GetInnerUnitsSchema())
-	var external_inner_units_repo = []repository.ExternalInnerUnit{
+	innerUnitConvert := convert.NewInnerUnitsList(validationSchema.GetInnerUnitsSchema())
+	var externalInnerUnitRepos = []repository.ExternalInnerUnit{
 		crawler.NewBoosterInnerUnit(),
 		crawler.NewFcsInnerUnit(),
 		crawler.NewGeneratorInnerUnit(),
 	}
-	inner_unit_repo := repo.NewInnerUnit()
-	job.NewInnerUnitJob(inner_unit_repo, external_inner_units_repo, inner_unit_convert, logger).Execute(ctx)
+	innerUnitRepo := repo.NewInnerUnit()
+	job.NewInnerUnitJob(innerUnitRepo, externalInnerUnitRepos, innerUnitConvert, logger).Execute(ctx)
 
-	expansion_convert := convert.NewExpansionList(validation_schema.GetExpansionSchema())
-	var external_expansion_repo = []repository.ExternalExpansion{
+	expansionConvert := convert.NewExpansionList(validationSchema.GetExpansionSchema())
+	var externalExpansionRepos = []repository.ExternalExpansion{
 		crawler.NewExpansion(),
 	}
-	expansion_repo := repo.NewExpansion()
-	job.NewExpansionJob(expansion_repo, external_expansion_repo, expansion_convert, logger).Execute(ctx)
+	expansionRepo := repo.NewExpansion()
+	job.NewExpansionJob(expansionRepo, externalExpansionRepos, expansionConvert, logger).Execute(ctx)
 }

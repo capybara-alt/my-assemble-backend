@@ -10,44 +10,44 @@ import (
 )
 
 type InnerUnitJob struct {
-	db_repo       repository.InnerUnit
-	external_repo []repository.ExternalInnerUnit
-	convertor     convert.IConvertor[model.InnerUnit]
-	logger        *slog.Logger
+	dbRepo       repository.InnerUnit
+	externalRepo []repository.ExternalInnerUnit
+	convertor    convert.IConvertor[model.InnerUnit]
+	logger       *slog.Logger
 }
 
 func NewInnerUnitJob(
-	db_repo repository.InnerUnit,
-	external_repo []repository.ExternalInnerUnit,
+	dbRepo repository.InnerUnit,
+	externalRepo []repository.ExternalInnerUnit,
 	convertor convert.IConvertor[model.InnerUnit],
 	logger *slog.Logger) ICrawlJobUsecase {
 	return &InnerUnitJob{
-		db_repo:       db_repo,
-		external_repo: external_repo,
-		convertor:     convertor,
-		logger:        logger,
+		dbRepo:       dbRepo,
+		externalRepo: externalRepo,
+		convertor:    convertor,
+		logger:       logger,
 	}
 }
 
 func (c *InnerUnitJob) Execute(ctx context.Context) {
 	models := []model.InnerUnit{}
 
-	for _, repo := range c.external_repo {
+	for _, repo := range c.externalRepo {
 		results, err := repo.Fetch()
 		if err != nil {
 			c.logger.Error("Crawl failed", "detail", err)
 		}
 		c.logger.Info("Crawl successful")
-		inner_units_list, err := c.convertor.Convert(results)
+		innerUnitList, err := c.convertor.Convert(results)
 		if err != nil {
 			c.logger.Error("Validation error", "detail", err)
 		} else {
-			models = append(models, inner_units_list...)
+			models = append(models, innerUnitList...)
 			c.logger.Info("Convert successful")
 		}
 	}
 
-	if err := c.db_repo.UpsertBatch(ctx, models); err != nil {
+	if err := c.dbRepo.UpsertBatch(ctx, models); err != nil {
 		c.logger.Error("InsertBatch failed", "detail", err)
 	}
 }

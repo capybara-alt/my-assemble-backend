@@ -9,13 +9,13 @@ import (
 	"github.com/capybara-alt/my-assemble/repository"
 )
 
-type validation_unit_schema struct{}
+type validationUnitSchema struct{}
 
 func NewValidationUnitSchema() repository.ValidationUnitSchema {
-	return &validation_unit_schema{}
+	return &validationUnitSchema{}
 }
 
-func (v *validation_unit_schema) GetValidationSchema(ctx context.Context, unit_type model.PrimaryUnitType) (model.ValidationUnitSchemaList, error) {
+func (v *validationUnitSchema) GetValidationSchema(ctx context.Context, unit_type model.PrimaryUnitType) (model.ValidationUnitSchemaList, error) {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return nil, errors.New("DB not connected")
