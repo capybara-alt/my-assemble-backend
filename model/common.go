@@ -1,5 +1,9 @@
 package model
 
+type CategoryGroupedJSON map[string]NameGroupedJSON
+type NameGroupedJSON map[string]UnitInfoJSON
+type UnitInfoJSON map[string]string
+type UnitInfoValueTypes string
 type CrawlResultJSON map[string]CategoryGroupedJSON
 
 func (c CrawlResultJSON) GetUnitType() string {
@@ -9,29 +13,6 @@ func (c CrawlResultJSON) GetUnitType() string {
 
 	return ""
 }
-
-type CategoryGroupedJSON map[string]NameGroupedJSON
-
-func (c CategoryGroupedJSON) GetCategory() string {
-	for key := range c {
-		return key
-	}
-
-	return ""
-}
-
-type NameGroupedJSON map[string]UnitInfoJSON
-
-func (n NameGroupedJSON) GetName() string {
-	for key := range n {
-		return key
-	}
-
-	return ""
-}
-
-type UnitInfoJSON map[string]string
-type UnitInfoValueTypes string
 
 const (
 	INT    UnitInfoValueTypes = "int"

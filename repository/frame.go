@@ -7,5 +7,9 @@ import (
 )
 
 type Frame interface {
-	InsertBatch(context.Context, []model.Frame) error
+	UpsertBatch(context.Context, []model.Frame) error
+}
+
+type ExternalFrame interface {
+	Fetch() (model.CrawlResultJSON, error)
 }

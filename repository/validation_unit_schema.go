@@ -7,5 +7,5 @@ import (
 )
 
 type ValidationUnitSchema interface {
-	GetValidationSchema(ctx context.Context, unit_type model.PrimaryUnitType) (model.ValidationUnitSchemaList, error)
+	GetValidationSchema(context.Context, model.PrimaryUnitType) (model.ValidationUnitSchemaList, error)
 }

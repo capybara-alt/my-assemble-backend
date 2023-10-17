@@ -17,14 +17,14 @@ func NewFrame() repository.Frame {
 	return &frame{}
 }
 
-func (r *frame) InsertBatch(ctx context.Context, frame_list []model.Frame) error {
+func (r *frame) UpsertBatch(ctx context.Context, frameList []model.Frame) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		for _, v := range frame_list {
+		for _, v := range frameList {
 			err := tx.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&v).Error

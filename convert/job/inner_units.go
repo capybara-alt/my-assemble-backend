@@ -6,49 +6,49 @@ import (
 )
 
 type InnerUnitsList struct {
-	validation_schema model.ValidationUnitSchemaList
+	validationSchema model.ValidationUnitSchemaList
 }
 
 func NewInnerUnitsList(s model.ValidationUnitSchemaList) IConvertor[model.InnerUnit] {
 	return &InnerUnitsList{
-		validation_schema: s,
+		validationSchema: s,
 	}
 }
 
 func (f *InnerUnitsList) Convert(results model.CrawlResultJSON) ([]model.InnerUnit, error) {
-	inner_units_list := []model.InnerUnit{}
-	unit_type := results.GetUnitType()
-	categories := results[unit_type]
-	for category_name, category := range categories {
-		wc := newInnerUnits(category_name, unit_type, f.validation_schema)
-		for name, inner_unit_info := range category {
-			inner_units, err := wc.convert(name, inner_unit_info)
+	innerUnitList := []model.InnerUnit{}
+	unitType := results.GetUnitType()
+	categories := results[unitType]
+	for cname, category := range categories {
+		wc := newInnerUnits(cname, unitType, f.validationSchema)
+		for name, info := range category {
+			innerUnit, err := wc.convert(name, info)
 			if err != nil {
 				return nil, err
 			}
-			inner_units_list = append(inner_units_list, *inner_units)
+			innerUnitList = append(innerUnitList, *innerUnit)
 		}
 	}
 
-	return inner_units_list, nil
+	return innerUnitList, nil
 }
 
 type innerUnits struct {
-	validation_schema model.ValidationUnitSchemaList
-	unit_type         string
-	category          string
+	validationSchema model.ValidationUnitSchemaList
+	unitType         string
+	category         string
 }
 
-func newInnerUnits(category, unit_type string, s model.ValidationUnitSchemaList) *innerUnits {
+func newInnerUnits(category, unitType string, s model.ValidationUnitSchemaList) *innerUnits {
 	return &innerUnits{
-		category:          category,
-		unit_type:         unit_type,
-		validation_schema: s,
+		category:         category,
+		unitType:         unitType,
+		validationSchema: s,
 	}
 }
 
-func (i *innerUnits) convert(name string, inner_units_info model.UnitInfoJSON) (*model.InnerUnit, error) {
-	converted, err := i.validation_schema.ConvertValues(inner_units_info)
+func (i *innerUnits) convert(name string, info model.UnitInfoJSON) (*model.InnerUnit, error) {
+	converted, err := i.validationSchema.ConvertValues(info)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (i *innerUnits) convert(name string, inner_units_info model.UnitInfoJSON) (
 	return &model.InnerUnit{
 		Name:                  name,
 		Category:              i.category,
-		Unit:                  i.unit_type,
+		Unit:                  i.unitType,
 		Maker:                 converted["maker"].(string),
 		ABThrust:              converted["ab_thrust"].(int64),
 		AbEnConsumption:       converted["ab_en_consumption"].(int64),

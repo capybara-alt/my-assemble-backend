@@ -8,14 +8,14 @@ import (
 
 type ContextKey string
 
-const tx_context_key ContextKey = "dbc"
+const txContextKey ContextKey = "dbc"
 
 func SetTx(ctx context.Context, tx *gorm.DB) context.Context {
-	return context.WithValue(ctx, tx_context_key, tx)
+	return context.WithValue(ctx, txContextKey, tx)
 }
 
 func GetTx(ctx context.Context) *gorm.DB {
-	if tx, ok := ctx.Value(tx_context_key).(*gorm.DB); ok {
+	if tx, ok := ctx.Value(txContextKey).(*gorm.DB); ok {
 		return tx
 	}
 
