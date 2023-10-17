@@ -5,50 +5,49 @@ import (
 	"log/slog"
 
 	convert "github.com/capybara-alt/my-assemble/convert/job"
-	"github.com/capybara-alt/my-assemble/crawler"
 	"github.com/capybara-alt/my-assemble/model"
 	"github.com/capybara-alt/my-assemble/repository"
 )
 
 type InnerUnitJob struct {
-	crawlers  []crawler.ICrawler
-	repo      repository.InnerUnit
-	convertor convert.IConvertor[model.InnerUnit]
-	logger    *slog.Logger
+	db_repo       repository.InnerUnit
+	external_repo []repository.ExternalInnerUnit
+	convertor     convert.IConvertor[model.InnerUnit]
+	logger        *slog.Logger
 }
 
 func NewInnerUnitJob(
-	crawlers []crawler.ICrawler,
-	repo repository.InnerUnit,
+	db_repo repository.InnerUnit,
+	external_repo []repository.ExternalInnerUnit,
 	convertor convert.IConvertor[model.InnerUnit],
 	logger *slog.Logger) ICrawlJobUsecase {
 	return &InnerUnitJob{
-		crawlers:  crawlers,
-		repo:      repo,
-		convertor: convertor,
-		logger:    logger,
+		db_repo:       db_repo,
+		external_repo: external_repo,
+		convertor:     convertor,
+		logger:        logger,
 	}
 }
 
 func (c *InnerUnitJob) Execute(ctx context.Context) {
 	models := []model.InnerUnit{}
 
-	for _, crawler := range c.crawlers {
-		results, err := crawler.Crawl()
+	for _, repo := range c.external_repo {
+		results, err := repo.Fetch()
 		if err != nil {
-			c.logger.Error("Crawl failed", "JobName", crawler.JobName(), "detail", err)
+			c.logger.Error("Crawl failed", "detail", err)
 		}
-		c.logger.Info("Crawl successful", "JobName", crawler.JobName())
+		c.logger.Info("Crawl successful")
 		inner_units_list, err := c.convertor.Convert(results)
 		if err != nil {
-			c.logger.Error("Validation error", "JobName", crawler.JobName(), "detail", err)
+			c.logger.Error("Validation error", "detail", err)
 		} else {
 			models = append(models, inner_units_list...)
-			c.logger.Info("Convert successful", "JobName", crawler.JobName())
+			c.logger.Info("Convert successful")
 		}
 	}
 
-	if err := c.repo.InsertBatch(ctx, models); err != nil {
+	if err := c.db_repo.InsertBatch(ctx, models); err != nil {
 		c.logger.Error("InsertBatch failed", "detail", err)
 	}
 }
