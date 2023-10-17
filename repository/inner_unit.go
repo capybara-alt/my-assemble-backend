@@ -7,7 +7,7 @@ import (
 )
 
 type InnerUnit interface {
-	InsertBatch(context.Context, []model.InnerUnit) error
+	UpsertBatch(context.Context, []model.InnerUnit) error
 }
 
 type ExternalInnerUnit interface {

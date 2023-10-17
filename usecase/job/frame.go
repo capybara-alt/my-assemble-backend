@@ -47,7 +47,7 @@ func (c *FrameJob) Execute(ctx context.Context) {
 		}
 	}
 
-	if err := c.db_repo.InsertBatch(ctx, models); err != nil {
+	if err := c.db_repo.UpsertBatch(ctx, models); err != nil {
 		c.logger.Error("InsertBatch failed", "detail", err)
 	}
 }

@@ -17,7 +17,7 @@ func NewWeapon() repository.Weapon {
 	return &weapon{}
 }
 
-func (r *weapon) InsertBatch(ctx context.Context, weapon_list []model.Weapon) error {
+func (r *weapon) UpsertBatch(ctx context.Context, weapon_list []model.Weapon) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")

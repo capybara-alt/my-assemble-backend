@@ -17,7 +17,7 @@ func NewExpansion() repository.Expansion {
 	return &expansion{}
 }
 
-func (r *expansion) InsertBatch(ctx context.Context, expansion_list []model.Expansion) error {
+func (r *expansion) UpsertBatch(ctx context.Context, expansion_list []model.Expansion) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")

@@ -17,7 +17,7 @@ func NewInnerUnit() repository.InnerUnit {
 	return &inner_unit{}
 }
 
-func (r *inner_unit) InsertBatch(ctx context.Context, inner_unit_list []model.InnerUnit) error {
+func (r *inner_unit) UpsertBatch(ctx context.Context, inner_unit_list []model.InnerUnit) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")

@@ -17,7 +17,7 @@ func NewFrame() repository.Frame {
 	return &frame{}
 }
 
-func (r *frame) InsertBatch(ctx context.Context, frame_list []model.Frame) error {
+func (r *frame) UpsertBatch(ctx context.Context, frame_list []model.Frame) error {
 	db := core.GetTx(ctx)
 	if db == nil {
 		return errors.New("DB not connected")
