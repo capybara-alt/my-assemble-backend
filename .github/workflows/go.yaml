@@ -13,8 +13,8 @@ jobs:
     
     steps:
       - uses: bufbuild/buf-setup-action@v1.27.1
-        with:
-          github_token: ${{ secrets.BSR_TOKEN }}
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
 
       - name: Checkout code
         uses: actions/checkout@v2
