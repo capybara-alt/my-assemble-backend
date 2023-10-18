@@ -12,19 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
     
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
 
-    - name: Set up environment
-      run: make setup
+      - name: Set up BSR
+        uses: bufbuild/buf-setup-action@v1.27.1
+        with:
+          buf_user: ${{ secrets.buf_user }}
+          buf_api_token: ${{ secrets.buf_api_token }}
 
-    - name: Run linter
-      run: make lint
+      - name: Set up environment
+        run: make setup
+
+      - name: Run linter
+        run: make lint
     
-    - name: Run tests
-      run: make test
+      - name: Run tests
+        run: make test

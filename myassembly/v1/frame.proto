@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package myassembly.v1;
+
+import "google/protobuf/empty.proto";
+
+message Frame {
+  string name = 1;
+  string unit = 2;
+  string category = 3;
+  int32 ab_thrust = 4;
+  int32 ab_en_consumption = 5;
+  int32 ap = 6;
+  int32 en_load = 7;
+  int32 qb_reload_ideal_weight = 8;
+  float qb_reload_time = 9;
+  float qb_jet_duration = 10;
+  int32 qb_thrust = 11;
+  int32 qb_en_consumption = 12;
+  int32 system_recovery = 13;
+  int32 generator_supply_adj = 14;
+  int32 generator_output_adj = 15;
+  float scan_standby_time = 16;
+  float scan_effect_duration = 17;
+  int32 scan_distance = 18;
+  int32 booster_efficiency_adj = 19;
+  string maker = 20;
+  int32 upward_thrust = 21;
+  int32 upward_en_consumption = 22;
+  int32 price = 23;
+  int32 recoil_control = 24;
+  int32 jump_height = 25;
+  int32 attitude_stability = 26;
+  int32 firearm_specialization = 27;
+  int32 thrust = 28;
+  int32 jump_distance = 29;
+  int32 load_limit = 30;
+  int32 anti_energy_defense = 31;
+  int32 anti_kinetic_defense = 32;
+  int32 anti_explosive_defense = 33;
+  int32 arms_load_limit = 34;
+  int32 travel_speed = 35;
+  int32 melee_specialization = 36;
+  int32 weight = 37;
+  int32 high_speed_pref = 38;
+  int64 created_at = 39;
+}
+
+message GetFrameListResponse {
+  repeated Frame items = 1;
+}
+
+message GetFrameRequest {
+  string name = 1;
+}
+
+message GetFrameResponse {
+  Frame item = 1;
+}
+
+service FrameService {
+  rpc GetFrameList(google.protobuf.Empty) returns (GetFrameListResponse) {}
+  rpc GetFrame(GetFrameRequest) returns (GetFrameResponse) {}
+}

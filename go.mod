@@ -3,6 +3,7 @@ module github.com/capybara-alt/my-assemble
 go 1.21.1
 
 require (
+	buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.11.1-20231018144021-810c9b5f9a40.1
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/gocolly/colly v1.2.0
 	github.com/stretchr/testify v1.8.2
@@ -11,6 +12,8 @@ require (
 )
 
 require (
+	buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231018144021-810c9b5f9a40.1 // indirect
+	connectrpc.com/connect v1.11.1 // indirect
 	github.com/andybalholm/cascadia v1.2.0 // indirect
 	github.com/antchfx/htmlquery v1.2.3 // indirect
 	github.com/antchfx/xmlquery v1.2.4 // indirect
@@ -19,7 +22,6 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.0 // indirect
-	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.3.1 // indirect
@@ -35,6 +37,6 @@ require (
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
-	google.golang.org/protobuf v1.29.1 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

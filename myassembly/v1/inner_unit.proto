@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package myassembly.v1;
+
+import "google/protobuf/empty.proto";
+
+message InnerUnit {
+  string name = 1;
+  string unit = 2;
+  string category = 3;
+  string maker = 4;
+  int32 ab_thrust = 5;
+  int32 ab_en_consumption = 6;
+  int32 en_output = 7;
+  int32 en_capacity = 8;
+  int32 energy_firearm_spec = 9;
+  int32 en_recharge = 10;
+  int32 en_load = 11;
+  int32 qb_reload_ideal_weight = 12;
+  float qb_jet_duration = 13;
+  int32 qb_thrust = 14;
+  float qb_reload_time = 15;
+  int32 qb_en_consumption = 16;
+  int32 upward_thrust = 17;
+  int32 upward_en_consumption = 18;
+  int32 medium_range_assist = 19;
+  int32 supply_recovery = 20;
+  int32 price = 21;
+  int32 post_recovery_en_supply = 22;
+  int32 thrust = 23;
+  int32 missile_lock_correction = 24;
+  int32 multi_lock_correction = 25;
+  int32 melee_attack_thrust = 26;
+  int32 melee_atk_en_consump = 27;
+  int32 close_range_assist = 28;
+  int32 log_range_assist = 29;
+  int32 weight = 30;
+  int64 created_at = 31;
+}
+
+message GetInnerUnitListResponse {
+  repeated InnerUnit items = 1;
+}
+
+message GetInnerUnitRequest {
+  string name = 1;
+}
+
+message GetInnerUnitResponse {
+  InnerUnit item = 1;
+}
+
+service InnerUnitService {
+  rpc GetInnerUnitList(google.protobuf.Empty) returns (GetInnerUnitListResponse) {}
+  rpc GetInnerUnit(GetInnerUnitRequest) returns (GetInnerUnitResponse) {}
+}
