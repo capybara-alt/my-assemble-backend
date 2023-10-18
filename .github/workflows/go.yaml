@@ -12,10 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: bufbuild/buf-setup-action@v1.27.1
-        env:
-          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
-
       - name: Checkout code
         uses: actions/checkout@v2
     
@@ -25,6 +21,9 @@ jobs:
           go-version: 1.21
 
       - name: Set up environment
+        uses: bufbuild/buf-setup-action@v1.27.1
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
         run: make setup
 
       - name: Run linter
