@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package myassembly.v1;
+
+import "google/protobuf/empty.proto";
+
+message Expansion {
+  string name = 1;
+  string unit = 2;
+  string category = 3;
+  int32 effect_range = 4;
+  int32 duration = 5;
+  int32 attack_power = 6;
+  int32 blast_radius = 7;
+  int32 direct_hit_adjustment = 8;
+  int32 resilience = 9;
+  int32 impact = 10;
+  int32 accumulative_impact = 11;
+  int64 created_at = 12;
+}
+
+message GetExpansionListResponse {
+  repeated Expansion items = 1;
+}
+
+message GetExpansionRequest {
+  string name = 1;
+}
+
+message GetExpansionResponse {
+  Expansion item = 1;
+}
+
+service ExpansionService {
+  rpc GetExpansionList(google.protobuf.Empty) returns (GetExpansionListResponse) {}
+  rpc GetExpansion(GetExpansionRequest) returns (GetExpansionResponse) {}
+}

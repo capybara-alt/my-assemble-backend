@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package myassembly.v1;
+
+import "google/protobuf/empty.proto";
+
+message Weapon {
+  string name = 1;
+  string unit = 2;
+  string category = 3;
+  int32 pa_interference = 4;
+  int32 cooling = 5;
+  int32 recoil = 6;
+  int32 tk_heat_buildup = 7;
+  int32 deployment_range = 8;
+  int32 ammunition_cost = 9;
+  int32 magazine_rounds = 10;
+  int32 ideal_range = 11;
+  string attack_power = 12;
+  int32 atk_heat_buildup = 13;
+  int32 damage_mitigation = 14;
+  int32 impact_dampening = 15;
+  int32 idle_damage_mitigation = 16;
+  float idle_time = 17;
+  int32 idle_impact_mitigation = 18;
+  float reload_time = 19;
+  int32 max_lock_count = 20;
+  int32 effective_range = 21;
+  int32 blast_radius = 22;
+  int32 direct_hit_adjustment = 23;
+  int32 total_rounds = 24;
+  string impact = 25;
+  string accumulative_impact = 26;
+  int32 guidance = 27;
+  float homing_lock_time = 28;
+  float rapid_fire = 29;
+  int32 consecutive_hits = 30;
+  float ig_duration = 31;
+  int32 ig_damage_mitigation = 32;
+  int32 ig_impact_dampening = 33;
+  int32 chg_en_load = 34;
+  float chg_time = 35;
+  string chg_attack_power = 36;
+  int32 chg_heat_buildup = 37;
+  int32 chg_ammo_consumption = 38;
+  int32 chg_blast_radius = 39;
+  string chg_impact = 40;
+  string chg_accum_impact = 41;
+  string full_chg_attack_power = 42;
+  int32 full_chg_heat_buildup = 43;
+  int32 full_chg_ammo_consump = 44;
+  int32 full_chg_blast_radius = 45;
+  string full_chg_impact = 46;
+  string full_chg_accum_impact = 47;
+  float full_chg_time = 48;
+  string maker = 49;
+  int32 weight = 50;
+  int32 en_load = 51;
+  int32 price = 52;
+  int64 created_at = 53;
+}
+
+message GetWeaponListResponse {
+  repeated Weapon items = 1;
+}
+
+message GetWeaponRequest {
+  string name = 1;
+}
+
+message GetWeaponResponse {
+  Weapon item = 1;
+}
+
+service WeaponService {
+  rpc GetWeaponList(google.protobuf.Empty) returns (GetWeaponListResponse) {}
+  rpc GetWeapon(GetWeaponRequest) returns (GetWeaponResponse) {}
+}
