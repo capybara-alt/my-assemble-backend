@@ -8,6 +8,8 @@ import (
 
 type Frame interface {
 	UpsertBatch(context.Context, []model.Frame) error
+	Get(context.Context, string) (*model.Frame, error)
+	GetAll(context.Context) ([]model.Frame, error)
 }
 
 type ExternalFrame interface {
