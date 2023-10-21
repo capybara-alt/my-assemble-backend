@@ -36,3 +36,30 @@ func (r *frame) UpsertBatch(ctx context.Context, frameList []model.Frame) error 
 		return nil
 	})
 }
+
+func (r *frame) Get(ctx context.Context, key string) (*model.Frame, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	frame := &model.Frame{}
+	if err := db.First(&frame, key).Error; err != nil {
+		return nil, err
+	}
+	return frame, nil
+}
+
+func (r *frame) GetAll(ctx context.Context) ([]model.Frame, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	frameList := []model.Frame{}
+	if err := db.Find(&frameList).Error; err != nil {
+		return nil, err
+	}
+
+	return frameList, nil
+}
