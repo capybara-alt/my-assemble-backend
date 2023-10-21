@@ -36,3 +36,30 @@ func (r *weapon) UpsertBatch(ctx context.Context, weaponList []model.Weapon) err
 		return nil
 	})
 }
+
+func (r *weapon) Get(ctx context.Context, key string) (*model.Weapon, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	weapon := &model.Weapon{}
+	if err := db.First(&weapon, key).Error; err != nil {
+		return nil, err
+	}
+	return weapon, nil
+}
+
+func (r *weapon) GetAll(ctx context.Context) ([]model.Weapon, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	weaponList := []model.Weapon{}
+	if err := db.Find(&weaponList).Error; err != nil {
+		return nil, err
+	}
+
+	return weaponList, nil
+}

@@ -36,3 +36,30 @@ func (r *innerUnit) UpsertBatch(ctx context.Context, innerUnitList []model.Inner
 		return nil
 	})
 }
+
+func (r *innerUnit) Get(ctx context.Context, key string) (*model.InnerUnit, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	innerUnit := &model.InnerUnit{}
+	if err := db.First(&innerUnit, key).Error; err != nil {
+		return nil, err
+	}
+	return innerUnit, nil
+}
+
+func (r *innerUnit) GetAll(ctx context.Context) ([]model.InnerUnit, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	innerUnitList := []model.InnerUnit{}
+	if err := db.Find(&innerUnitList).Error; err != nil {
+		return nil, err
+	}
+
+	return innerUnitList, nil
+}

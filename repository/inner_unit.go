@@ -8,6 +8,8 @@ import (
 
 type InnerUnit interface {
 	UpsertBatch(context.Context, []model.InnerUnit) error
+	Get(context.Context, string) (*model.InnerUnit, error)
+	GetAll(context.Context) ([]model.InnerUnit, error)
 }
 
 type ExternalInnerUnit interface {

@@ -36,3 +36,30 @@ func (r *expansion) UpsertBatch(ctx context.Context, expansionList []model.Expan
 		return nil
 	})
 }
+
+func (r *expansion) Get(ctx context.Context, key string) (*model.Expansion, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	expansion := &model.Expansion{}
+	if err := db.First(&expansion, key).Error; err != nil {
+		return nil, err
+	}
+	return expansion, nil
+}
+
+func (r *expansion) GetAll(ctx context.Context) ([]model.Expansion, error) {
+	db := core.GetTx(ctx)
+	if db == nil {
+		return nil, errors.New("DB not connected")
+	}
+
+	expansionList := []model.Expansion{}
+	if err := db.Find(&expansionList).Error; err != nil {
+		return nil, err
+	}
+
+	return expansionList, nil
+}

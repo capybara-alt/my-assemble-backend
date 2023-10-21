@@ -13,7 +13,7 @@ message Weapon {
   int32 recoil = 6;
   int32 tk_heat_buildup = 7;
   int32 deployment_range = 8;
-  int32 ammunition_cost = 9;
+  string ammunition_cost = 9;
   int32 magazine_rounds = 10;
   int32 ideal_range = 11;
   string attack_power = 12;
