@@ -2,6 +2,8 @@ run-job:
 	@set -a && source ./.env && set +a && go run cmd/job/main.go
 run-server:
 	@set -a && source ./.env && set +a && go run cmd/server/main.go
+migrate:
+	@set -a && source ./.env && set +a && go run cmd/migrations/main.go
 fmt:
 	go fmt ./...
 lint:
