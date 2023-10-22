@@ -7,7 +7,7 @@ import (
 )
 
 type InnerUnit struct {
-	Name                  string `gorm:"primaryKey"`
+	Name                  string `gorm:"primaryKey;index:inner_unit_idx"`
 	Category              string
 	Unit                  string
 	Maker                 string

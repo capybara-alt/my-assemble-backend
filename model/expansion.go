@@ -7,7 +7,7 @@ import (
 )
 
 type Expansion struct {
-	Name                string `gorm:"primaryKey"`
+	Name                string `gorm:"primaryKey;index:expansion_idx"`
 	Category            string
 	Unit                string
 	EffectRange         int64

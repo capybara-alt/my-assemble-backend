@@ -7,7 +7,7 @@ import (
 )
 
 type Weapon struct {
-	Name                 string `gorm:"primaryKey"`
+	Name                 string `gorm:"primaryKey;index:weapon_idx"`
 	Category             string
 	Maker                string
 	ENLoad               int64

@@ -7,7 +7,7 @@ import (
 )
 
 type Frame struct {
-	Name                  string `gorm:"primaryKey"`
+	Name                  string `gorm:"primaryKey;index:frame_idx"`
 	Category              string
 	Unit                  string
 	ABThrust              int64

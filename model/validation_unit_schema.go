@@ -38,11 +38,11 @@ func (v ValidationUnitSchemaList) ConvertValues(info UnitInfoJSON) (map[string]i
 }
 
 type ValidationUnitSchema struct {
-	PropName  string `gorm:"primaryKey"`
+	PropName  string `gorm:"primaryKey;index:validation_unit_schema_idx"`
 	NameJa    string
 	NameEn    string
 	ValueType UnitInfoValueTypes
-	UnitType  PrimaryUnitType
+	UnitType  PrimaryUnitType `gorm:"primaryKey"`
 }
 
 func NewValidationUnitSchema() *ValidationUnitSchema {
