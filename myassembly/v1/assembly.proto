@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package myassembly.v1;
+
+import "google/protobuf/empty.proto";
+import "myassembly/v1/expansion.proto";
+import "myassembly/v1/frame.proto";
+import "myassembly/v1/inner_unit.proto";
+import "myassembly/v1/user.proto";
+import "myassembly/v1/weapon.proto";
+
+message Assembly {
+  int64 id = 1;
+  string name = 2;
+  User user = 3;
+  optional Weapon left_arm_unit = 4;
+  optional Weapon right_arm_unit = 5;
+  optional Weapon left_back_unit = 6;
+  optional Weapon right_back_unit = 7;
+  Frame head = 8;
+  Frame core = 9;
+  Frame legs = 10;
+  Frame arms = 11;
+  InnerUnit booster = 12;
+  InnerUnit fcs = 13;
+  InnerUnit generator = 14;
+  optional Expansion expansion = 15;
+  int64 created_at = 16;
+}
+
+message GetAssemblyRequest {
+  int64 id = 1;
+}
+
+message GetAssemblyResponse {
+  Assembly item = 1;
+}
+
+message GetAssemblyListRequest {
+  string uid = 1;
+}
+
+message GetAssemblyListResponse {
+  repeated Assembly items = 1;
+}
+
+message CreateAssemblyRequest {
+  Assembly item = 1;
+}
+
+message UpdateAssemblyRequest {
+  Assembly item = 1;
+}
+
+message UpdateAssemblyResponse {
+  Assembly item = 1;
+}
+
+service AssemblyService {
+  rpc GetAssembly(GetAssemblyRequest) returns (GetAssemblyResponse) {}
+  rpc GetAssemblyList(GetAssemblyListRequest) returns (GetAssemblyListResponse) {}
+  rpc CreateAssembly(CreateAssemblyRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateAssembly(UpdateAssemblyRequest) returns (UpdateAssemblyResponse) {}
+}
