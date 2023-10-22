@@ -16,11 +16,11 @@ message GetUserRequest {
 }
 
 message GetUserResponse {
-  User user = 1;
+  User item = 1;
 }
 
 message CreateUserRequest {
-  User user = 1;
+  User item = 1;
 }
 
 service UserService {
