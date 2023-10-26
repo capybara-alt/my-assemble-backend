@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	myassemblyv1 "buf.build/gen/go/capybara/my-assemble/protocolbuffers/go/myassembly/v1"
 )
 
 type ValidationUnitSchemaList []ValidationUnitSchema
@@ -37,6 +39,15 @@ func (v ValidationUnitSchemaList) ConvertValues(info UnitInfoJSON) (map[string]i
 	}
 }
 
+func (v ValidationUnitSchemaList) ToPB() []*myassemblyv1.ValidationUnitSchema {
+	vus_list := make([]*myassemblyv1.ValidationUnitSchema, len(v))
+	for i, vus := range v {
+		vus_list[i] = vus.ToPB()
+	}
+
+	return vus_list
+}
+
 type ValidationUnitSchema struct {
 	PropName  string `gorm:"primaryKey;index:validation_unit_schema_idx"`
 	NameJa    string
@@ -47,6 +58,26 @@ type ValidationUnitSchema struct {
 
 func NewValidationUnitSchema() *ValidationUnitSchema {
 	return &ValidationUnitSchema{}
+}
+
+func (v ValidationUnitSchema) ToPB() *myassemblyv1.ValidationUnitSchema {
+	return &myassemblyv1.ValidationUnitSchema{
+		PropName:  v.PropName,
+		NameJa:    v.NameJa,
+		NameEn:    v.NameEn,
+		ValueType: string(v.ValueType),
+		UnitType:  string(v.UnitType),
+	}
+}
+
+func (v ValidationUnitSchema) FromPB(validation_unit_schema ValidationUnitSchema) *ValidationUnitSchema {
+	return &ValidationUnitSchema{
+		PropName:  validation_unit_schema.PropName,
+		NameJa:    validation_unit_schema.NameJa,
+		NameEn:    validation_unit_schema.NameEn,
+		ValueType: validation_unit_schema.ValueType,
+		UnitType:  validation_unit_schema.UnitType,
+	}
 }
 
 func (v ValidationUnitSchema) convertValue(value string) (interface{}, error) {
