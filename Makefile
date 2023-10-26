@@ -13,7 +13,7 @@ test:
 setup:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2 && go mod tidy
 buf-push:
-	buf push && buf mod update && buf build
+	buf push && buf mod update && buf build && go get buf.build/gen/go/capybara/my-assemble/connectrpc/go@latest
 buf-lint:
 	buf lint
 buf-fmt:

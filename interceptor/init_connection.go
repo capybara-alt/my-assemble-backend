@@ -2,6 +2,7 @@ package interceptor
 
 import (
 	"context"
+	"database/sql"
 	"os"
 
 	"log/slog"
@@ -14,6 +15,8 @@ import (
 )
 
 func NewInitConnectionInterceptor() connect.UnaryInterceptorFunc {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
 	return func(next connect.UnaryFunc) connect.UnaryFunc {
 		return connect.UnaryFunc(func(ctx context.Context, req connect.AnyRequest) (resp connect.AnyResponse, err error) {
 			db, err := gorm.Open(postgres.New(postgres.Config{
@@ -25,10 +28,19 @@ func NewInitConnectionInterceptor() connect.UnaryInterceptorFunc {
 					Colorful: true,
 				}),
 			})
-
 			if err != nil {
 				return nil, err
 			}
+			conn, err := db.DB()
+			if err != nil {
+				return nil, err
+			}
+			defer func(conn *sql.DB) {
+				logger.Info("Close DB Connection")
+				if err := conn.Close(); err != nil {
+					logger.Error("DB Connection close error", "detail", err)
+				}
+			}(conn)
 
 			err = db.Transaction(func(tx *gorm.DB) error {
 				resp, err = next(core.SetTx(ctx, tx), req)
