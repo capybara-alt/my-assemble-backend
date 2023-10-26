@@ -45,6 +45,7 @@ func main() {
 	))
 	mux.Handle(myassemblyv1connect.NewValidationUnitSchemaServiceHandler(
 		handler.NewValidationUnitSchemaHandler(validationUnitSchemaRepo, logger),
+		interceptors,
 	))
 	mux.Handle(myassemblyv1connect.NewAssemblyServiceHandler(
 		handler.NewAssemblyHandler(assemblyRepo, logger),
