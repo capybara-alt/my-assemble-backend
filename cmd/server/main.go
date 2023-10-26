@@ -24,6 +24,7 @@ func main() {
 	frameRepo := repo.NewFrame()
 	innerUnitRepo := repo.NewInnerUnit()
 	weaponRepo := repo.NewWeapon()
+	validationUnitSchemaRepo := repo.NewValidationUnitSchema()
 	mux.Handle(myassemblyv1connect.NewExpansionServiceHandler(
 		handler.NewExpansionHandler(expansionRepo, logger),
 		interceptors,
@@ -38,6 +39,10 @@ func main() {
 	))
 	mux.Handle(myassemblyv1connect.NewWeaponServiceHandler(
 		handler.NewWeaponHandler(weaponRepo, logger),
+		interceptors,
+	))
+	mux.Handle(myassemblyv1connect.NewValidationUnitSchemaServiceHandler(
+		handler.NewValidationUnitSchemaHandler(validationUnitSchemaRepo, logger),
 		interceptors,
 	))
 

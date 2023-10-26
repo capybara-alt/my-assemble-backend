@@ -3,9 +3,9 @@ module github.com/capybara-alt/my-assemble
 go 1.21.1
 
 require (
-	buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.11.1-20231021082514-90af1e66202c.1
-	buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231021082514-90af1e66202c.1
-	connectrpc.com/connect v1.11.1
+	buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.12.0-20231026144326-dfcfc93759e8.1
+	buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231026144326-dfcfc93759e8.2
+	connectrpc.com/connect v1.12.0
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/gocolly/colly v1.2.0
 	github.com/stretchr/testify v1.8.3
