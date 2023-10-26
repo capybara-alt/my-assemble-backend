@@ -1,7 +1,11 @@
 buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.12.0-20231026144326-dfcfc93759e8.1 h1:TJ9K/UnZS1dR5KgPlw6Jmzs/3PK05tuPae8kMKZ9/m8=
 buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.12.0-20231026144326-dfcfc93759e8.1/go.mod h1:NR5BkAXlJklI0bFkx6Glyph+6cVUqKX+dH5T3uG2S5w=
+buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.12.0-20231026155911-c9f2d57f2eff.1 h1:n5dNfiFfiXZfWLC0sluWfz/FlOaIfl0Je1b8FecBIk8=
+buf.build/gen/go/capybara/my-assemble/connectrpc/go v1.12.0-20231026155911-c9f2d57f2eff.1/go.mod h1:6LbPKeW8g+4hNX97z4V0iJNQz8bYbLwneI8JTyX5qYI=
 buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231026144326-dfcfc93759e8.2 h1:FX94YUNyAOsTNpJcJVZ/dZXitqICHtLodWwJy/w3ZG0=
 buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231026144326-dfcfc93759e8.2/go.mod h1:S76eZAOc7VImeJj12DsZx1EYpCm+fMbYJRTuT/T6iuc=
+buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231026155911-c9f2d57f2eff.2 h1:dIAW0ma/z8Hga30aK5KQ8gZO+GYch6HHQf/g6OC52kQ=
+buf.build/gen/go/capybara/my-assemble/protocolbuffers/go v1.31.0-20231026155911-c9f2d57f2eff.2/go.mod h1:S76eZAOc7VImeJj12DsZx1EYpCm+fMbYJRTuT/T6iuc=
 connectrpc.com/connect v1.12.0 h1:HwKdOY0lGhhoHdsza+hW55aqHEC64pYpObRNoAgn70g=
 connectrpc.com/connect v1.12.0/go.mod h1:3AGaO6RRGMx5IKFfqbe3hvK1NqLosFNP2BxDYTPmNPo=
 github.com/PuerkitoBio/goquery v1.5.1 h1:PSPBGne8NIUWw+/7vFBV+kG2J/5MOjbzc7154OaKCSE=
